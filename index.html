@@ -77,8 +77,8 @@
   }
   .hero__pulse path {
     fill: none;
-    stroke: var(--color-orange);
-    stroke-width: 2.5;
+    stroke: #2f8f8c;
+    stroke-width: 2;
     stroke-linecap: round;
     stroke-linejoin: round;
   }
@@ -98,67 +98,71 @@
   }
   .hero__art-frame {
     position: relative;
-    width: min(460px, 100%);
+    width: min(500px, 100%);
     aspect-ratio: 1 / 1;
     border-radius: var(--radius-lg);
     overflow: hidden;
-    box-shadow: var(--shadow-card-hover);
-    border: 1px solid var(--color-line);
-    background: radial-gradient(120% 120% at 32% 24%,
-                  var(--color-white) 0%, var(--color-sage-light) 68%, #dbe7e0 100%);
+    background: radial-gradient(135% 120% at 70% 26%,
+                  #ffffff 0%, #f2f7f6 56%, #e6efec 100%);
+    box-shadow: 0 34px 64px -34px rgba(18, 50, 75, 0.32);
     display: flex;
     align-items: center;
     justify-content: center;
   }
 
-  /* ==== "Pain point -> restored movement" hero animation ===================
-     Pure inline SVG + CSS keyframes — no images, no JS. Easy to customise:
-       - Colours: the --fig-* / --wave-* / --pain vars just below.
-       - Speed:   --move-flow-dur (wave flow) + the figure/pulse durations.
-       - Pain-point position: the cx/cy on the .pain-* circles in the markup.
-     A simplified physio figure sits on the left; a soft "pain point" on the
-     lower back gently pulses, and curved movement lines are drawn outward to
-     the right — easing from a warm (pain) tone into calm teal/green (restored,
-     fluid motion). */
-  .hero__figure {
-    --fig-stroke: var(--color-petrol);
-    --wave-warm: var(--color-orange);
-    --wave-mid: #2E7C79;             /* teal — cool + clinical */
-    --wave-calm: var(--color-sage);
-    --pain: var(--color-orange);
-    --move-flow-dur: 7s;
-    width: 92%;
-    height: 92%;
+  /* ==== Premium physiotherapy "mobility" animation =========================
+     An abstract, elegant mobility diagram — not a figure. A suggested spine
+     with vertebra nodes, soft torso contours, a set of range-of-motion arcs,
+     a subtle warm "stiffness" point on the lower back, and layered gradient
+     motion waves that flow out to the right (stiffness -> mobility). The draw
+     + loop are handled by GSAP (script at the end of this file). This CSS only
+     defines the RESTING (final) look, so if JS is off or the user prefers
+     reduced motion, the full, correct diagram is shown — nothing hidden.
+
+     Tune colours here; tune timing/positions via the CONFIG in the script. */
+  .hero-anim {
+    --c-navy:  #16324b;   /* deep navy — anatomical lines   */
+    --c-teal:  #2f8f8c;   /* teal                           */
+    --c-blue:  #5c9cc4;   /* soft blue                      */
+    --c-green: #9fd0b4;   /* pale green                     */
+    --c-pain:  var(--color-orange); /* muted warm accent    */
+    width: 96%;
+    height: 96%;
     overflow: visible;
   }
 
-  .fig-line {
-    fill: none;
-    stroke: var(--fig-stroke);
-    stroke-width: 8;
-    stroke-linecap: round;
-    stroke-linejoin: round;
+  /* Anatomical lines: spine + soft torso contours */
+  .anim-line {
+    fill: none; stroke: var(--c-navy);
+    stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round;
   }
-  .fig-head { fill: var(--fig-stroke); }
+  .anim-contour {
+    fill: none; stroke: var(--c-navy);
+    stroke-width: 1.8; stroke-linecap: round; opacity: 0.3;
+  }
 
-  .pain-halo { fill: var(--pain); opacity: 0.16; }
-  .pain-dot  { fill: var(--pain); }
+  /* Range-of-motion arcs */
+  .anim-arc { fill: none; stroke: var(--c-teal); stroke-width: 1.6; stroke-linecap: round; }
+  .anim-arc--1 { opacity: 0.55; }
+  .anim-arc--2 { opacity: 0.4; }
+  .anim-arc--3 { opacity: 0.26; }
+
+  /* Flowing motion waves (calm base) + a travelling highlight glow */
+  .anim-wave { fill: none; stroke: url(#flowGrad); stroke-linecap: round; }
+  .anim-wave--a { stroke-width: 2.6; opacity: 0.92; }
+  .anim-wave--b { stroke-width: 2.3; opacity: 0.72; }
+  .anim-wave--c { stroke-width: 2.0; opacity: 0.55; }
+  .anim-wave--d { stroke-width: 1.7; opacity: 0.4; }
+  .anim-glow { fill: none; stroke: #d3efe6; stroke-width: 2.6; stroke-linecap: round; opacity: 0; }
+
+  /* Nodes: vertebrae + wave points */
+  .anim-node { fill: var(--c-navy); }
+  .anim-node--soft { fill: var(--c-teal); opacity: 0.85; }
+
+  /* Stiffness / "pain" point — subtle warm accent, never dominant */
+  .pain-halo { fill: var(--c-pain); opacity: 0.14; }
+  .pain-dot  { fill: var(--c-pain); }
   .pain-halo, .pain-dot { transform-box: fill-box; transform-origin: center; }
-
-  .move-wave {
-    fill: none;
-    stroke-width: 5;
-    stroke-linecap: round;
-  }
-  .move-wave--1 { stroke: var(--wave-warm); }
-  .move-wave--2 { stroke: var(--wave-mid); }
-  .move-wave--3 { stroke: var(--wave-calm); }
-
-  /* Default state (reduced-motion / no-JS): figure fully drawn, calm static
-     waves, steady pain dot — nothing hidden or mid-transition. */
-  .fig-line { stroke-dasharray: none; stroke-dashoffset: 0; }
-  .fig-head { opacity: 1; }
-  .move-wave { stroke-dasharray: none; stroke-dashoffset: 0; opacity: 0.5; }
 
   /* ---- Motion layer: only when the user allows animation ---- */
   @media (prefers-reduced-motion: no-preference) {
@@ -179,31 +183,8 @@
       transform: scale(0.96);
       animation: hero-fade-up 0.8s var(--ease-out) 0.2s forwards;
     }
-    /* Figure draws itself in once on load; head pops in softly. */
-    .fig-line {
-      stroke-dasharray: 100;
-      stroke-dashoffset: 100;
-      animation: move-draw 1.3s var(--ease-out) 0.35s forwards;
-    }
-    .fig-head {
-      transform-box: fill-box;
-      transform-origin: center;
-      opacity: 0;
-      animation: fig-head-in 0.5s var(--ease-out) 0.3s forwards;
-    }
-    /* Pain point pulses gently, forever. */
-    .pain-dot  { animation: pain-pulse 2.4s ease-in-out 1.5s infinite; }
-    .pain-halo { animation: pain-halo 2.4s ease-out 1.5s infinite; }
-    /* Movement waves flow outward from the pain point, looping. Outer waves
-       are broader, slower and softer — motion becoming smooth and restored. */
-    .move-wave {
-      stroke-dasharray: 55 45;
-      stroke-dashoffset: 100;
-      opacity: 0.9;
-      animation: move-flow var(--move-flow-dur) linear 1.1s infinite;
-    }
-    .move-wave--2 { animation-duration: calc(var(--move-flow-dur) + 1.6s); animation-delay: 1.4s; }
-    .move-wave--3 { animation-duration: calc(var(--move-flow-dur) + 3.2s); animation-delay: 1.7s; opacity: 0.72; }
+    /* The mobility diagram itself (spine, arcs, waves, point) is animated by
+       GSAP — see the script at the end of the file. */
 
     .hero__pulse-line {
       stroke-dasharray: 480;
@@ -225,23 +206,6 @@
   @keyframes hero-fade-up {
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
-  }
-  /* Line-drawing (figure) — dashoffset from 100 (set in rule) to 0. */
-  @keyframes move-draw { to { stroke-dashoffset: 0; } }
-  @keyframes fig-head-in { from { opacity: 0; transform: scale(0.6); } to { opacity: 1; transform: scale(1); } }
-  /* Wave flow — marches the dash pattern one full cycle (100 units) so the
-     curved lines appear to stream outward, seamlessly looping. */
-  @keyframes move-flow { to { stroke-dashoffset: 0; } }
-  /* Pain point — a soft "being pressed / soothed" pulse. */
-  @keyframes pain-pulse {
-    0%, 100% { transform: scale(1);   opacity: 1; }
-    50%      { transform: scale(0.8); opacity: 0.8; }
-  }
-  /* Pain point halo — expands and fades, like relief radiating out. */
-  @keyframes pain-halo {
-    0%   { transform: scale(0.5); opacity: 0.32; }
-    70%  { transform: scale(2.6); opacity: 0; }
-    100% { transform: scale(2.6); opacity: 0; }
   }
   @keyframes hero-pulse-draw {
     to { stroke-dashoffset: 0; }
@@ -438,40 +402,65 @@
     <div>
       <span class="eyebrow hero__eyebrow">Leamington Spa &middot; Sports Massage &amp; Injury Rehab</span>
       <h1 class="hero__title">
-        <span class="line"><span>Move better.</span></span>
-        <span class="line"><span>Recover faster.</span></span>
+        <span class="line"><span>Move Better.</span></span>
+        <span class="line"><span>Recover Stronger.</span></span>
       </h1>
       <svg class="hero__pulse" viewBox="0 0 420 40" aria-hidden="true" focusable="false">
         <path class="hero__pulse-line" d="M0 20 Q 30 6 60 20 T 120 20 T 180 20 T 240 20 T 300 20 T 360 20 T 420 20" />
         <path class="hero__pulse-loop" d="M0 20 Q 30 6 60 20 T 120 20 T 180 20 T 240 20 T 300 20 T 360 20 T 420 20" />
       </svg>
-      <p class="lead hero__lead">Sports massage and injury rehabilitation in Leamington Spa &mdash; for athletes, office workers, and everyone in between.</p>
+      <p class="lead hero__lead">Personalised sports therapy and rehabilitation designed to relieve pain, restore mobility, and help you return to confident movement.</p>
       <div class="hero__ctas">
-        <a class="btn btn--primary" href="https://bookings.rehabguru.com/ad3cec81c13830ea1363b7018253817f%3A33ec59064610941230f86f7d8b0f9f9fd371bcbf771bc233bffc8da3ef31e993" target="_blank" rel="noopener">Book Now</a>
+        <a class="btn btn--primary" href="https://bookings.rehabguru.com/ad3cec81c13830ea1363b7018253817f%3A33ec59064610941230f86f7d8b0f9f9fd371bcbf771bc233bffc8da3ef31e993" target="_blank" rel="noopener">Book an Assessment</a>
         <a class="btn btn--ghost" href="treatments.html">Treatments &amp; Prices</a>
       </div>
     </div>
     <div class="hero__art" aria-hidden="true">
       <div class="hero__art-frame">
-        <svg class="hero__figure" viewBox="0 0 460 460" focusable="false">
-          <!-- ===== Movement waves: fan outward from the pain point (rightward) ===== -->
-          <path class="move-wave move-wave--1" pathLength="100" d="M182,182 C 236,152 274,196 324,168 C 370,142 412,190 454,164" />
-          <path class="move-wave move-wave--2" pathLength="100" d="M182,192 C 238,210 276,176 326,198 C 372,216 414,182 456,204" />
-          <path class="move-wave move-wave--3" pathLength="100" d="M182,202 C 234,232 274,206 324,228 C 368,246 412,222 454,242" />
+        <!-- ===== Premium abstract "mobility" diagram (drawn & looped by GSAP) ===== -->
+        <svg class="hero-anim" viewBox="0 0 500 500" preserveAspectRatio="xMidYMid meet" focusable="false">
+          <defs>
+            <!-- Motion-wave gradient: teal -> soft blue -> pale green, left to right -->
+            <linearGradient id="flowGrad" gradientUnits="userSpaceOnUse" x1="210" y1="320" x2="500" y2="230">
+              <stop offset="0"   stop-color="#2f8f8c" />
+              <stop offset="0.5" stop-color="#5c9cc4" />
+              <stop offset="1"   stop-color="#9fd0b4" />
+            </linearGradient>
+          </defs>
 
-          <!-- ===== Simplified physio figure, mid-stride, facing the movement ===== -->
-          <circle class="fig-head" cx="168" cy="86" r="21" />
-          <path class="fig-line" pathLength="100" d="M168,107 C 172,138 176,168 176,196" />        <!-- spine/torso -->
-          <path class="fig-line" pathLength="100" d="M172,132 C 187,143 199,157 206,175" />        <!-- front arm (forward) -->
-          <path class="fig-line" pathLength="100" d="M170,133 C 154,143 143,158 135,176" />        <!-- back arm -->
-          <path class="fig-line" pathLength="100" d="M176,196 C 188,224 197,250 200,278 C 202,302 201,326 198,348" /> <!-- front leg -->
-          <path class="fig-line" pathLength="100" d="M176,196 C 165,222 153,245 140,268 C 130,292 123,314 118,338" />  <!-- back leg -->
-          <path class="fig-line" pathLength="100" d="M198,348 L 216,353" />                          <!-- front foot -->
-          <path class="fig-line" pathLength="100" d="M118,338 L 134,344" />                          <!-- back foot -->
+          <!-- Soft torso contours (back + front) — the body is suggested, not drawn -->
+          <path class="anim-contour" d="M150,120 C 120,196 140,268 132,338 C 128,372 142,404 172,424" />
+          <path class="anim-contour" d="M300,132 C 322,200 300,268 308,332 C 312,364 302,392 282,410" />
 
-          <!-- ===== Pain point on the lower back ===== -->
-          <circle class="pain-halo" cx="175" cy="190" r="15" />
-          <circle class="pain-dot"  cx="175" cy="190" r="7" />
+          <!-- Spine: an elegant natural curve; vertebra nodes are placed on it by JS -->
+          <path id="spine" class="anim-line" d="M244,70 C 214,134 262,196 228,262 C 210,300 218,326 226,352" />
+
+          <!-- Range-of-motion arcs around the lower-back / hip, opening up & right -->
+          <path class="anim-arc anim-arc--1" d="M209,271 A60,60 0 0 1 278,320" />
+          <path class="anim-arc anim-arc--2" d="M205,249 A82,82 0 0 1 300,316" />
+          <path class="anim-arc anim-arc--3" d="M201,228 A104,104 0 0 1 321,312" />
+
+          <!-- Motion waves: flow out to the right, tight curves easing into broad arcs -->
+          <path class="anim-wave anim-wave--a" d="M232,322 C 300,300 330,258 392,250 C 430,245 452,262 486,248" />
+          <path class="anim-wave anim-wave--b" d="M236,330 C 316,318 356,274 420,286 C 452,292 470,276 492,290" />
+          <path class="anim-wave anim-wave--c" d="M240,338 C 330,338 380,298 470,318 C 484,321 490,318 496,322" />
+          <path class="anim-wave anim-wave--d" d="M244,346 C 340,362 402,330 492,352" />
+
+          <!-- Travelling highlight twins of each wave (light pulse of movement) -->
+          <path class="anim-glow" d="M232,322 C 300,300 330,258 392,250 C 430,245 452,262 486,248" />
+          <path class="anim-glow" d="M236,330 C 316,318 356,274 420,286 C 452,292 470,276 492,290" />
+          <path class="anim-glow" d="M240,338 C 330,338 380,298 470,318 C 484,321 490,318 496,322" />
+
+          <!-- Small controlled node points on the flow -->
+          <circle class="anim-node anim-node--soft" cx="392" cy="250" r="3.4" />
+          <circle class="anim-node anim-node--soft" cx="470" cy="318" r="3" />
+
+          <!-- Vertebra nodes get appended here by the script -->
+          <g class="vertebrae"></g>
+
+          <!-- Stiffness / "pain" point on the lower back — subtle warm accent -->
+          <circle class="pain-halo" cx="222" cy="328" r="16" />
+          <circle class="pain-dot"  cx="222" cy="328" r="6" />
         </svg>
       </div>
     </div>
@@ -698,5 +687,120 @@
   </div>
 </footer>
 <script src="assets/js/main.js"></script>
+
+<!-- ===== Premium hero mobility animation (GSAP) =============================
+     Draws the abstract diagram in, then loops a gentle pulse on the stiffness
+     point and a highlight travelling along each motion wave. All tunable knobs
+     live in CONFIG. With JS off or prefers-reduced-motion, the CSS resting
+     state already shows the full, correct diagram — so we simply don't animate.
+     GSAP is a static CDN script (fine for GitHub Pages). -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script>
+(function () {
+  "use strict";
+
+  /* ---- Tunable settings ---- */
+  var CONFIG = {
+    vertebraCount: 7,      // number of nodes placed along the spine
+    drawDuration: 1.3,     // seconds to draw the spine/contours
+    drawStagger: 0.14,
+    arcDuration: 1.0,
+    arcStagger: 0.16,
+    waveDuration: 1.9,     // seconds to draw the motion waves
+    waveStagger: 0.26,
+    glowDuration: 3.4,     // seconds for a highlight to travel a wave
+    glowStagger: 0.55,
+    pulsePeriod: 2.6       // seconds for one stiffness-point pulse
+  };
+
+  function init() {
+    var svg = document.querySelector('.hero-anim');
+    if (!svg) return;
+    var SVGNS = 'http://www.w3.org/2000/svg';
+
+    /* Place vertebra nodes precisely on the spine curve (works with or
+       without GSAP, so the resting diagram gets them too). */
+    var spine = svg.querySelector('#spine');
+    var vertGroup = svg.querySelector('.vertebrae');
+    if (spine && vertGroup && !vertGroup.childNodes.length) {
+      var total = spine.getTotalLength();
+      for (var i = 0; i < CONFIG.vertebraCount; i++) {
+        var pt = spine.getPointAtLength(total * (i + 0.5) / CONFIG.vertebraCount);
+        var c = document.createElementNS(SVGNS, 'circle');
+        c.setAttribute('cx', pt.x.toFixed(1));
+        c.setAttribute('cy', pt.y.toFixed(1));
+        c.setAttribute('r', '2.5');
+        c.setAttribute('class', 'anim-node');
+        vertGroup.appendChild(c);
+      }
+    }
+
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce || !window.gsap) return;   // CSS already shows the final state
+
+    var gsap = window.gsap;
+    var lines = svg.querySelectorAll('.anim-line, .anim-contour');
+    var arcs  = svg.querySelectorAll('.anim-arc');
+    var waves = svg.querySelectorAll('.anim-wave');
+    var glows = svg.querySelectorAll('.anim-glow');
+    var nodes = svg.querySelectorAll('.anim-node');
+    var painDot = svg.querySelector('.pain-dot');
+    var painHalo = svg.querySelector('.pain-halo');
+
+    /* Prime "draw-in" paths: a single full-length dash, offset out of view. */
+    function prime(el) {
+      var L = el.getTotalLength();
+      el.style.strokeDasharray = L;
+      el.style.strokeDashoffset = L;
+      return L;
+    }
+    lines.forEach(prime);
+    arcs.forEach(prime);
+    waves.forEach(prime);
+    /* Animate opacity + the radius ATTRIBUTE (not transforms) — keeps the SVG
+       circles perfectly in place and concentric, which scale transforms don't. */
+    gsap.set(nodes, { opacity: 0 });
+    gsap.set([painDot, painHalo], { opacity: 0 });
+
+    /* ---- Intro: anatomy, arcs, point, then the motion waves flow out ---- */
+    var tl = gsap.timeline({ defaults: { ease: 'power2.out' } });
+    tl.to(lines, { strokeDashoffset: 0, duration: CONFIG.drawDuration, stagger: CONFIG.drawStagger })
+      .to(nodes, { opacity: 1, duration: 0.5, stagger: 0.05 }, '-=0.7')
+      .to(arcs,  { strokeDashoffset: 0, duration: CONFIG.arcDuration, stagger: CONFIG.arcStagger }, '-=0.7')
+      .to(painHalo, { opacity: 0.14, duration: 0.6 }, '-=0.8')
+      .to(painDot,  { opacity: 1, duration: 0.5 }, '-=0.45')
+      .to(waves, { strokeDashoffset: 0, duration: CONFIG.waveDuration, stagger: CONFIG.waveStagger, ease: 'power1.inOut' }, '-=0.5');
+
+    /* ---- Loop: gentle pulse on the stiffness point (radius, not scale) ---- */
+    gsap.to(painDot, {
+      attr: { r: 4.4 }, duration: CONFIG.pulsePeriod / 2,
+      ease: 'sine.inOut', yoyo: true, repeat: -1, delay: 2.4
+    });
+    gsap.fromTo(painHalo,
+      { attr: { r: 9 }, opacity: 0.26 },
+      { attr: { r: 34 }, opacity: 0, duration: CONFIG.pulsePeriod,
+        ease: 'sine.out', repeat: -1, delay: 2.4 });
+
+    /* ---- Loop: a soft highlight travels along each wave (movement flowing) ---- */
+    glows.forEach(function (g, i) {
+      var L = g.getTotalLength();
+      g.style.strokeDasharray = '22 ' + L;   // one short segment + long gap
+      g.style.strokeDashoffset = 0;
+      gsap.set(g, { opacity: 0.8 });
+      gsap.to(g, {
+        strokeDashoffset: -(L + 22),
+        duration: CONFIG.glowDuration + i * 0.5,
+        ease: 'none', repeat: -1, delay: 2.6 + i * CONFIG.glowStagger
+      });
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>
 </body>
 </html>
