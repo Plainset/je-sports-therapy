@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JE Sports Therapy | Sports Massage & Injury Rehab, Leamington Spa</title>
+<meta name="description" content="Sports massage and injury rehabilitation in Leamington Spa with James Egginton — BSc Sports Science, qualified Sports Therapist. Book online today.">
+<meta property="og:title" content="JE Sports Therapy | Leamington Spa">
+<meta property="og:description" content="Move better. Recover faster. Sports massage and injury rehabilitation with James Egginton in Leamington Spa.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#0E2A2B">
+<link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg">
+<link rel="canonical" href="index.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/tokens.css">
+<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="scroll-progress" aria-hidden="true"><div class="scroll-progress__fill"></div></div>
+<header class="site-header">
+  <div class="container nav">
+    <a class="nav__brand" href="index.html">JE Sports<span>Therapy</span></a>
+    <button class="nav__toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle menu">
+      <span class="nav__toggle-icon"></span>
+    </button>
+    <ul class="nav__menu" id="primary-nav">
+      <li><a href="index.html" aria-current="page">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="treatments.html">Treatments &amp; Prices</a></li>
+      <li><a href="reviews.html">Reviews</a></li>
+      <li><a href="faq.html">FAQ</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a class="btn btn--primary" href="https://bookings.rehabguru.com/ad3cec81c13830ea1363b7018253817f%3A33ec59064610941230f86f7d8b0f9f9fd371bcbf771bc233bffc8da3ef31e993" target="_blank" rel="noopener">Book Now</a></li>
+    </ul>
+  </div>
+</header>
+
+<main id="main">
+<style>
+  /* ==========================================================================
+     Home page — hero SVG animation + page-specific layout
+     Scoped to index.html only.
+     ========================================================================== */
+
+  /* ---- Hero ---- */
+  .hero {
+    position: relative;
+    padding-block: var(--space-6) var(--space-6);
+    overflow: hidden;
+    background: linear-gradient(180deg, var(--color-sage-light) 0%, var(--color-bone) 62%);
+  }
+  .hero__inner {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: var(--space-6);
+    align-items: center;
+  }
+  .hero__eyebrow { margin-bottom: var(--space-2); }
+  .hero__title {
+    font-size: var(--fs-h1);
+    margin-bottom: var(--space-3);
+  }
+  .hero__title .line { display: block; overflow: hidden; }
+  .hero__title .line span {
+    display: inline-block;
+    opacity: 1;
+    transform: none;
+  }
+  .hero__pulse {
+    display: block;
+    width: min(420px, 90%);
+    height: 40px;
+    margin: 0 0 var(--space-4);
+  }
+  .hero__pulse path {
+    fill: none;
+    stroke: var(--color-orange);
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .hero__lead { margin-bottom: var(--space-4); }
+  .hero__ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .hero__art {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 320px;
+  }
+  .hero__art-frame {
+    position: relative;
+    width: min(440px, 100%);
+    aspect-ratio: 1 / 1;
+  }
+  .hero__figure {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+  .hero__figure-line {
+    fill: none;
+    stroke: var(--color-petrol-light);
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .hero__figure-line--soft {
+    stroke: var(--color-sage);
+    stroke-width: 2;
+  }
+  .hero__tape {
+    fill: var(--color-orange);
+    opacity: 0.92;
+  }
+  .hero__tape-highlight {
+    fill: rgba(255, 255, 255, 0.22);
+  }
+
+  /* Default (no-motion-preference-unknown / reduced-motion) final state:
+     everything fully visible, no clipping, no dash offsets. This is the
+     baseline so nothing is ever invisible or broken. */
+  .hero__figure-line,
+  .hero__figure-line--soft {
+    stroke-dasharray: none;
+    stroke-dashoffset: 0;
+  }
+  .hero__tape-group {
+    clip-path: inset(0 0 0 0);
+  }
+  .hero__pulse path {
+    stroke-dasharray: none;
+    stroke-dashoffset: 0;
+  }
+
+  /* ---- Motion layer: only when the user allows animation ---- */
+  @media (prefers-reduced-motion: no-preference) {
+    .hero__title .line span {
+      opacity: 0;
+      transform: translateY(0.5em);
+      animation: hero-word-in 0.7s var(--ease-out) forwards;
+    }
+    .hero__title .line:nth-child(1) span { animation-delay: 0.05s; }
+    .hero__title .line:nth-child(2) span { animation-delay: 0.13s; }
+
+    .hero__lead { opacity: 0; animation: hero-fade-up 0.7s var(--ease-out) 0.32s forwards; }
+    .hero__ctas { opacity: 0; animation: hero-fade-up 0.7s var(--ease-out) 0.42s forwards; }
+    .hero__pulse { opacity: 0; animation: hero-fade-up 0.5s var(--ease-out) 0.24s forwards; }
+
+    .hero__figure-line {
+      stroke-dasharray: 900;
+      stroke-dashoffset: 900;
+      animation: hero-draw 1.2s var(--ease-out) 0.2s forwards;
+    }
+    .hero__figure-line--soft {
+      stroke-dasharray: 500;
+      stroke-dashoffset: 500;
+      animation: hero-draw 1.2s var(--ease-out) 0.45s forwards;
+    }
+    .hero__tape-group {
+      clip-path: inset(0 100% 0 0);
+      animation: hero-tape-reveal 0.55s var(--ease-out) forwards;
+    }
+    .hero__tape-group--1 { animation-delay: 1.35s; }
+    .hero__tape-group--2 { animation-delay: 1.6s; }
+
+    .hero__pulse-line {
+      stroke-dasharray: 480;
+      stroke-dashoffset: 480;
+      animation: hero-pulse-draw 1s var(--ease-out) 0.15s forwards;
+    }
+    .hero__pulse-loop {
+      opacity: 0;
+      stroke-dasharray: 60 360;
+      stroke-dashoffset: 0;
+      animation: hero-fade-up 0.4s var(--ease-out) 1.2s forwards,
+                 hero-pulse-loop 2.6s linear 1.4s infinite;
+    }
+  }
+
+  @keyframes hero-word-in {
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes hero-fade-up {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes hero-draw {
+    to { stroke-dashoffset: 0; }
+  }
+  @keyframes hero-tape-reveal {
+    to { clip-path: inset(0 0 0 0); }
+  }
+  @keyframes hero-pulse-draw {
+    to { stroke-dashoffset: 0; }
+  }
+  @keyframes hero-pulse-loop {
+    from { stroke-dashoffset: 0; }
+    to { stroke-dashoffset: -440; }
+  }
+
+  @media (max-width: 899px) {
+    .hero__inner { grid-template-columns: 1fr; gap: var(--space-5); }
+    .hero__art { order: -1; min-height: 220px; }
+    .hero__art-frame { width: min(320px, 80%); }
+  }
+
+  /* ---- Stat strip ---- */
+  .stat-strip {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-3);
+    text-align: center;
+    margin-block: var(--space-4);
+    padding: var(--space-3) 0;
+    border-top: 1px solid var(--color-line);
+    border-bottom: 1px solid var(--color-line);
+  }
+  .stat-strip__num {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 3vw + 1rem, 2.8rem);
+    color: var(--color-orange-dark);
+    line-height: 1;
+  }
+  .stat-strip__label {
+    font-size: var(--fs-small);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-petrol-light);
+    font-family: var(--font-display);
+    margin-top: 0.35em;
+  }
+  @media (max-width: 639px) {
+    .stat-strip { grid-template-columns: 1fr; gap: var(--space-2); }
+  }
+
+  /* ---- Benefit icons ---- */
+  .benefit {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-2);
+    padding: var(--space-2) 0;
+  }
+  .benefit__icon {
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--color-sage-light);
+    color: var(--color-petrol);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .benefit__icon svg {
+    width: 24px;
+    height: 24px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .benefit__label {
+    font-weight: 600;
+    color: var(--color-petrol);
+    padding-top: 0.5em;
+  }
+
+  /* ---- Why choose James ---- */
+  .why-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-3);
+  }
+  .why-item {
+    display: flex;
+    gap: var(--space-2);
+    align-items: flex-start;
+  }
+  .why-item__mark {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--color-orange);
+    color: var(--color-white);
+    font-family: var(--font-display);
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+  }
+  .why-item h3 { margin-bottom: 0.3em; font-size: 1.15rem; }
+  .why-item p { margin: 0; color: var(--color-petrol-light); max-width: 42ch; }
+  @media (max-width: 639px) {
+    .why-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ---- Review ---- */
+  .review-card {
+    max-width: 780px;
+    margin-inline: auto;
+    background: var(--color-white);
+    border: 1px solid var(--color-line);
+    border-left: 6px solid var(--color-orange);
+    border-radius: var(--radius-md);
+    padding: var(--space-4) var(--space-4);
+    box-shadow: var(--shadow-card);
+    text-align: center;
+  }
+  .review-card__quote {
+    font-family: var(--font-display);
+    font-size: clamp(1.25rem, 1.4vw + 1rem, 1.6rem);
+    color: var(--color-petrol);
+    line-height: 1.35;
+    margin: 0 0 var(--space-2);
+  }
+  .review-card__quote::before { content: "\201C"; }
+  .review-card__quote::after { content: "\201D"; }
+  .review-card__stars {
+    color: var(--color-orange);
+    letter-spacing: 0.15em;
+    margin-bottom: var(--space-2);
+    font-size: 1.1rem;
+  }
+  .review-card__author {
+    font-weight: 700;
+    color: var(--color-petrol-light);
+  }
+
+  /* ---- Visit strip ---- */
+  .visit {
+    background: var(--color-petrol);
+    color: var(--color-bone);
+  }
+  .visit h2 { color: var(--color-white); }
+  .visit__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr auto;
+    gap: var(--space-4);
+    align-items: center;
+  }
+  .visit address { font-style: normal; }
+  .visit__label {
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-sage);
+    font-size: var(--fs-small);
+    margin-bottom: 0.4em;
+    display: block;
+  }
+  @media (max-width: 899px) {
+    .visit__grid { grid-template-columns: 1fr; text-align: left; }
+  }
+
+  /* Services / benefits card link */
+  .service-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  .service-card__price {
+    font-family: var(--font-display);
+    color: var(--color-orange-dark);
+    font-size: 1.3rem;
+    margin-bottom: 0.3em;
+  }
+  .service-card p.desc { flex-grow: 1; }
+  .service-card__link {
+    color: var(--color-orange-dark);
+    font-weight: 700;
+    text-decoration: none;
+    font-size: var(--fs-small);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .service-card__link:hover { text-decoration: underline; }
+</style>
+
+<!-- ================= HERO ================= -->
+<section class="hero">
+  <div class="container hero__inner">
+    <div>
+      <span class="eyebrow hero__eyebrow">Leamington Spa &middot; Sports Massage &amp; Injury Rehab</span>
+      <h1 class="hero__title">
+        <span class="line"><span>Move better.</span></span>
+        <span class="line"><span>Recover faster.</span></span>
+      </h1>
+      <svg class="hero__pulse" viewBox="0 0 420 40" aria-hidden="true" focusable="false">
+        <path class="hero__pulse-line" d="M0 20 H150 L165 6 L180 34 L195 20 H420" />
+        <path class="hero__pulse-loop" d="M0 20 H150 L165 6 L180 34 L195 20 H420" />
+      </svg>
+      <p class="lead hero__lead">Sports massage and injury rehabilitation in Leamington Spa &mdash; for athletes, office workers, and everyone in between.</p>
+      <div class="hero__ctas">
+        <a class="btn btn--primary" href="https://bookings.rehabguru.com/ad3cec81c13830ea1363b7018253817f%3A33ec59064610941230f86f7d8b0f9f9fd371bcbf771bc233bffc8da3ef31e993" target="_blank" rel="noopener">Book Now</a>
+        <a class="btn btn--ghost" href="treatments.html">Treatments &amp; Prices</a>
+      </div>
+    </div>
+    <div class="hero__art" aria-hidden="true">
+      <div class="hero__art-frame">
+        <svg class="hero__figure" viewBox="0 0 400 400" focusable="false">
+          <!-- Abstract single-stroke line art suggesting shoulder / upper-back anatomy -->
+          <path class="hero__figure-line" d="M70 300 C 90 220, 110 150, 160 110 C 200 78, 250 78, 285 108 C 315 134, 322 172, 300 200 C 282 223, 250 226, 232 206 C 218 190, 222 166, 240 156 C 254 148, 270 154, 274 168" />
+          <path class="hero__figure-line--soft" d="M100 320 C 140 260, 150 200, 190 160 M310 150 C 330 175, 336 205, 322 232" />
+          <circle class="hero__figure-line--soft" cx="160" cy="110" r="5" />
+          <!-- Kinesiology tape strips -->
+          <g class="hero__tape-group hero__tape-group--1" transform="translate(210,150) rotate(25)">
+            <rect class="hero__tape" x="-90" y="-16" width="180" height="32" rx="10" />
+            <rect class="hero__tape-highlight" x="-90" y="-16" width="180" height="10" rx="5" />
+          </g>
+          <g class="hero__tape-group hero__tape-group--2" transform="translate(150,230) rotate(-18)">
+            <rect class="hero__tape" x="-70" y="-13" width="140" height="26" rx="9" />
+            <rect class="hero__tape-highlight" x="-70" y="-13" width="140" height="8" rx="4" />
+          </g>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TRUST BAR ================= -->
+<section class="section--tight" data-reveal="up">
+  <div class="container">
+    <div class="badge-row">
+      <span class="badge">BSc Sports Science</span>
+      <span class="badge">Sports Therapy Organisation</span>
+      <span class="badge">ISRM</span>
+      <span class="badge">RockDoc Certified</span>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SERVICES ================= -->
+<section class="section" aria-labelledby="services-heading">
+  <div class="container">
+    <div class="text-center" data-reveal="up" style="max-width:640px;margin-inline:auto;">
+      <span class="eyebrow">Treatments</span>
+      <h2 id="services-heading">How we can help</h2>
+      <p class="lead" style="margin-inline:auto;">From recovery massage to full injury assessment &mdash; treatment built around your body, not a one-size routine.</p>
+    </div>
+    <div class="grid grid--4" style="margin-top:var(--space-4);">
+      <div class="card service-card" data-reveal="up" data-reveal-delay="1">
+        <div class="service-card__price">From &pound;50</div>
+        <h3>Sports &amp; Deep Tissue Massage</h3>
+        <p class="desc">Targeted muscle work to ease tension, speed recovery, and keep you training.</p>
+        <a class="service-card__link" href="treatments.html">Learn more &rarr;</a>
+      </div>
+      <div class="card service-card" data-reveal="up" data-reveal-delay="2">
+        <div class="service-card__price">From &pound;60</div>
+        <h3>Injury Treatment &amp; Assessment</h3>
+        <p class="desc">A full assessment and hands-on treatment plan for injuries old and new.</p>
+        <a class="service-card__link" href="treatments.html">Learn more &rarr;</a>
+      </div>
+      <div class="card service-card" data-reveal="up" data-reveal-delay="3">
+        <div class="service-card__price">From &pound;50</div>
+        <h3>Injury Follow-Up</h3>
+        <p class="desc">Ongoing rehab sessions to track progress and keep you moving forward.</p>
+        <a class="service-card__link" href="treatments.html">Learn more &rarr;</a>
+      </div>
+      <div class="card service-card" data-reveal="up" data-reveal-delay="4">
+        <div class="service-card__price">&pound;10</div>
+        <h3>Rocktape Application</h3>
+        <p class="desc">Kinesiology taping to support muscles and joints between sessions.</p>
+        <a class="service-card__link" href="treatments.html">Learn more &rarr;</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= BENEFITS ================= -->
+<section class="section section--tight" style="background:var(--color-sage-light);">
+  <div class="container">
+    <div class="text-center" data-reveal="up" style="max-width:640px;margin-inline:auto;">
+      <span class="eyebrow">Why treatment works</span>
+      <h2>Benefits of regular treatment</h2>
+    </div>
+    <div class="grid grid--3" style="margin-top:var(--space-3);">
+      <div class="benefit" data-reveal="up" data-reveal-delay="1">
+        <span class="benefit__icon">
+          <svg viewBox="0 0 24 24"><path d="M4 14c2-4 4-6 8-6s6 2 8 6" /><path d="M4 18c2-3 4-4 8-4s6 1 8 4" /></svg>
+        </span>
+        <span class="benefit__label">Reduce muscular aches &amp; pains</span>
+      </div>
+      <div class="benefit" data-reveal="up" data-reveal-delay="2">
+        <span class="benefit__icon">
+          <svg viewBox="0 0 24 24"><path d="M12 3v7" /><path d="M8 7l4-4 4 4" /><path d="M6 21c2-6 4-8 6-8s4 2 6 8" /></svg>
+        </span>
+        <span class="benefit__label">Increase mobility &amp; flexibility</span>
+      </div>
+      <div class="benefit" data-reveal="up" data-reveal-delay="3">
+        <span class="benefit__icon">
+          <svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9" /><path d="M3 12l4-2m-4 2l4 2" /><path d="M12 7v5l3 2" /></svg>
+        </span>
+        <span class="benefit__label">Decrease muscle fatigue</span>
+      </div>
+      <div class="benefit" data-reveal="up" data-reveal-delay="4">
+        <span class="benefit__icon">
+          <svg viewBox="0 0 24 24"><path d="M4 20l6-10 4 5 6-9" /><path d="M20 6h-4v4" /></svg>
+        </span>
+        <span class="benefit__label">Prevent injury &amp; aid rehabilitation</span>
+      </div>
+      <div class="benefit" data-reveal="up" data-reveal-delay="1">
+        <span class="benefit__icon">
+          <svg viewBox="0 0 24 24"><path d="M12 3a4 4 0 0 1 0 8 4 4 0 0 1 0-8z" /><path d="M6 21c0-4 3-7 6-7s6 3 6 7" /></svg>
+        </span>
+        <span class="benefit__label">Increase recovery between sessions</span>
+      </div>
+      <div class="benefit" data-reveal="up" data-reveal-delay="2">
+        <span class="benefit__icon">
+          <svg viewBox="0 0 24 24"><path d="M9 21V11a3 3 0 0 1 6 0v10" /><path d="M9 14h6" /><circle cx="12" cy="5" r="2" /></svg>
+        </span>
+        <span class="benefit__label">Improve posture</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= WHY CHOOSE JAMES ================= -->
+<section class="section">
+  <div class="container">
+    <div class="text-center" data-reveal="up" style="max-width:640px;margin-inline:auto;">
+      <span class="eyebrow">About James</span>
+      <h2>Why choose James</h2>
+    </div>
+
+    <div class="stat-strip" data-reveal="fade">
+      <div>
+        <div class="stat-strip__num"><span data-counter="170" data-counter-suffix="kg+">0</span></div>
+        <div class="stat-strip__label">Powerlifter loads treated</div>
+      </div>
+      <div>
+        <div class="stat-strip__num"><span data-counter="3" data-counter-suffix=" seasons">0</span></div>
+        <div class="stat-strip__label">Pitch-side, Broadstreet RFC</div>
+      </div>
+      <div>
+        <div class="stat-strip__num"><span data-counter="9" data-counter-suffix="+">0</span></div>
+        <div class="stat-strip__label">Techniques &amp; qualifications</div>
+      </div>
+    </div>
+
+    <div class="why-grid" style="margin-top:var(--space-4);">
+      <div class="why-item" data-reveal="left" data-reveal-delay="1">
+        <span class="why-item__mark">1</span>
+        <div>
+          <h3>Degree-backed expertise</h3>
+          <p>BSc Sports Science (2012), qualified Soft Tissue Therapist (2014) and qualified Sports Therapist (2024).</p>
+        </div>
+      </div>
+      <div class="why-item" data-reveal="right" data-reveal-delay="1">
+        <span class="why-item__mark">2</span>
+        <div>
+          <h3>Trusted by serious athletes</h3>
+          <p>From powerlifters lifting 170kg+ to three seasons of pitch-side first aid with Broadstreet RFC, a National 3 Midlands Premier rugby team.</p>
+        </div>
+      </div>
+      <div class="why-item" data-reveal="left" data-reveal-delay="2">
+        <span class="why-item__mark">3</span>
+        <div>
+          <h3>Accredited &amp; CPD-current</h3>
+          <p>Member of the Institute of Sport and Remedial Massage Therapists and the Sports Therapy Organisation, with annual CPD.</p>
+        </div>
+      </div>
+      <div class="why-item" data-reveal="right" data-reveal-delay="2">
+        <span class="why-item__mark">4</span>
+        <div>
+          <h3>Specialist toolkit</h3>
+          <p>Qualified RockDoc kinesiology taping and Instrument-Assisted Sports Massage, alongside hands-on manual therapy.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= REVIEW ================= -->
+<section class="section section--tight" style="background:var(--color-sage-light);">
+  <div class="container">
+    <div class="review-card" data-reveal="scale">
+      <div class="review-card__stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+      <p class="review-card__quote">James has worked miracles for my plantar fasciitis. He is skilful, knowledgeable and has got me back running again in no time.</p>
+      <p class="review-card__author">Michael B.</p>
+    </div>
+    <p class="text-center" data-reveal="up" style="margin-top:var(--space-3);">
+      <a class="service-card__link" href="reviews.html">Read more reviews &rarr;</a>
+    </p>
+  </div>
+</section>
+
+<!-- ================= VISIT STRIP ================= -->
+<section class="section visit">
+  <div class="container visit__grid">
+    <address data-reveal="up">
+      <span class="visit__label">Visit</span>
+      Portland Mews Clinic<br>
+      Hawkstone House, Portland Mews<br>
+      Leamington Spa, CV32 5HD
+    </address>
+    <div data-reveal="up" data-reveal-delay="1">
+      <span class="visit__label">Hours</span>
+      Mon &amp; Thu 12&ndash;8pm<br>
+      Tue 2&ndash;8pm &middot; Wed 10&ndash;8pm<br>
+      Sun 8am&ndash;2pm &middot; Fri&ndash;Sat closed
+    </div>
+    <div data-reveal="up" data-reveal-delay="2">
+      <a class="btn btn--primary" href="https://bookings.rehabguru.com/ad3cec81c13830ea1363b7018253817f%3A33ec59064610941230f86f7d8b0f9f9fd371bcbf771bc233bffc8da3ef31e993" target="_blank" rel="noopener">Book Now</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <h3>Visit</h3>
+        <p>Portland Mews Clinic<br>Hawkstone House, Portland Mews<br>Leamington Spa, CV32 5HD</p>
+      </div>
+      <div>
+        <h3>Hours</h3>
+        <p>Mon &amp; Thu 12&ndash;8pm<br>Tue 2&ndash;8pm &middot; Wed 10&ndash;8pm<br>Sun 8am&ndash;2pm &middot; Fri&ndash;Sat closed</p>
+      </div>
+      <div>
+        <h3>Contact</h3>
+        <p><a href="mailto:info@jesportstherapy.co.uk">info@jesportstherapy.co.uk</a></p>
+        <ul class="footer-social">
+          <li><a href="https://www.facebook.com/JESporttherapy" target="_blank" rel="noopener">Facebook</a></li>
+          <li><a href="https://www.instagram.com/je_sportstherapy/" target="_blank" rel="noopener">Instagram</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Ready when you are</h3>
+        <a class="btn btn--primary" href="https://bookings.rehabguru.com/ad3cec81c13830ea1363b7018253817f%3A33ec59064610941230f86f7d8b0f9f9fd371bcbf771bc233bffc8da3ef31e993" target="_blank" rel="noopener">Book Now</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 JE Sports Therapy.</span>
+      <span>Leamington Spa, UK</span>
+    </div>
+  </div>
+</footer>
+<script src="assets/js/main.js"></script>
+</body>
+</html>
