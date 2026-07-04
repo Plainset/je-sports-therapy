@@ -99,50 +99,55 @@
 <!-- ============ BLOCK 2: SPORTS THERAPY & INJURY REHAB ============ -->
 <section class="section section--tight">
   <div class="container">
-    <div class="card" data-reveal="up">
-      <p class="eyebrow">02 &middot; Rehab</p>
-      <h2>Sports Therapy &amp; Injury Rehab</h2>
-      <p>A wider range of techniques in addition to massage, used to manage painful injuries, improve performance, and help you return to sport.</p>
-
-      <h3 class="visually-hidden">What it treats</h3>
-      <div>
-        <span class="chip">Sprains &amp; strains</span>
-        <span class="chip">Muscle, ligament &amp; tendon injuries</span>
-        <span class="chip">Tennis &amp; golfer's elbow</span>
-        <span class="chip">Traumatic injuries</span>
-        <span class="chip">Postural problems</span>
-        <span class="chip">Muscle imbalances</span>
-        <span class="chip">Joint pain &amp; stiffness</span>
+    <div class="card treatment-card--media" data-reveal="up">
+      <div class="treatment-card__media">
+        <img src="assets/img/treatments/instrument-assisted-massage.jpg" alt="Instrument-assisted soft tissue treatment being applied to a client's forearm">
       </div>
+      <div class="treatment-card__body">
+        <p class="eyebrow">02 &middot; Rehab</p>
+        <h2>Sports Therapy &amp; Injury Rehab</h2>
+        <p>A wider range of techniques in addition to massage &mdash; including instrument-assisted soft tissue work &mdash; used to manage painful injuries, improve performance, and help you return to sport.</p>
 
-      <div style="overflow-x:auto;">
-        <table class="price-table">
-          <caption class="visually-hidden">Sports Therapy &amp; Injury Rehab pricing by session type and duration</caption>
-          <thead>
-            <tr>
-              <th scope="col">Session</th>
-              <th scope="col">Price</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Injury Treatment &amp; Assessment &mdash; 45 minutes</td>
-              <td>&pound;60</td>
-            </tr>
-            <tr>
-              <td>Injury Treatment &amp; Assessment &mdash; 60 minutes</td>
-              <td>&pound;70</td>
-            </tr>
-            <tr>
-              <td>Injury Follow-Up &mdash; 45 minutes</td>
-              <td>&pound;50</td>
-            </tr>
-            <tr>
-              <td>Injury Follow-Up &mdash; 60 minutes</td>
-              <td>&pound;60</td>
-            </tr>
-          </tbody>
-        </table>
+        <h3 class="visually-hidden">What it treats</h3>
+        <div>
+          <span class="chip">Sprains &amp; strains</span>
+          <span class="chip">Muscle, ligament &amp; tendon injuries</span>
+          <span class="chip">Tennis &amp; golfer's elbow</span>
+          <span class="chip">Traumatic injuries</span>
+          <span class="chip">Postural problems</span>
+          <span class="chip">Muscle imbalances</span>
+          <span class="chip">Joint pain &amp; stiffness</span>
+        </div>
+
+        <div style="overflow-x:auto;">
+          <table class="price-table">
+            <caption class="visually-hidden">Sports Therapy &amp; Injury Rehab pricing by session type and duration</caption>
+            <thead>
+              <tr>
+                <th scope="col">Session</th>
+                <th scope="col">Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Injury Treatment &amp; Assessment &mdash; 45 minutes</td>
+                <td>&pound;60</td>
+              </tr>
+              <tr>
+                <td>Injury Treatment &amp; Assessment &mdash; 60 minutes</td>
+                <td>&pound;70</td>
+              </tr>
+              <tr>
+                <td>Injury Follow-Up &mdash; 45 minutes</td>
+                <td>&pound;50</td>
+              </tr>
+              <tr>
+                <td>Injury Follow-Up &mdash; 60 minutes</td>
+                <td>&pound;60</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
@@ -220,6 +225,30 @@
   </div>
 </section>
 
+<style>
+  /* ---- Treatments page: card with side photo ---- */
+  .treatment-card--media {
+    display: grid;
+    grid-template-columns: 0.8fr 1.2fr;
+    gap: var(--space-4);
+    align-items: center;
+  }
+  .treatment-card__media {
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    aspect-ratio: 1 / 1;
+  }
+  .treatment-card__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  @media (max-width: 899px) {
+    .treatment-card--media { grid-template-columns: 1fr; }
+    .treatment-card__media { order: -1; max-width: 320px; margin-inline: auto; width: 100%; }
+  }
+</style>
 </main>
 
 <footer class="site-footer">

@@ -100,42 +100,57 @@
     position: relative;
     width: min(440px, 100%);
     aspect-ratio: 1 / 1;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-card-hover);
+    border: 1px solid var(--color-line);
   }
-  .hero__figure {
+  .hero__photo {
     width: 100%;
     height: 100%;
-    overflow: visible;
+    object-fit: cover;
+    object-position: center 30%;
+    transform-origin: 60% 35%;
   }
-  .hero__figure-line {
-    fill: none;
-    stroke: var(--color-petrol-light);
-    stroke-width: 3;
-    stroke-linecap: round;
-    stroke-linejoin: round;
+  .hero__photo-caption {
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    padding: var(--space-2) var(--space-3);
+    background: linear-gradient(0deg, rgba(14,42,43,0.75), rgba(14,42,43,0));
+    color: var(--color-white);
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 0.85rem;
   }
-  .hero__figure-line--soft {
-    stroke: var(--color-sage);
-    stroke-width: 2;
+  /* Pulsing pressure-point marker over the hands — reads instantly as
+     "this is where the work is happening" without needing motion to make sense. */
+  .hero__pressure-point {
+    position: absolute;
+    left: 47%;
+    top: 34%;
+    width: 16px;
+    height: 16px;
+    margin: -8px 0 0 -8px;
   }
-  .hero__tape {
-    fill: var(--color-orange);
-    opacity: 0.92;
+  .hero__pressure-dot {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: var(--color-orange);
+    border: 2px solid var(--color-white);
+    box-shadow: 0 2px 8px rgba(14, 42, 43, 0.35);
   }
-  .hero__tape-highlight {
-    fill: rgba(255, 255, 255, 0.22);
+  .hero__pressure-ring {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 2px solid var(--color-orange);
+    opacity: 0;
   }
 
-  /* Default (no-motion-preference-unknown / reduced-motion) final state:
-     everything fully visible, no clipping, no dash offsets. This is the
-     baseline so nothing is ever invisible or broken. */
-  .hero__figure-line,
-  .hero__figure-line--soft {
-    stroke-dasharray: none;
-    stroke-dashoffset: 0;
-  }
-  .hero__tape-group {
-    clip-path: inset(0 0 0 0);
-  }
+  /* Default (reduced-motion) final state: photo static, marker shown
+     without animation so nothing is ever invisible or broken. */
   .hero__pulse path {
     stroke-dasharray: none;
     stroke-dashoffset: 0;
@@ -155,22 +170,23 @@
     .hero__ctas { opacity: 0; animation: hero-fade-up 0.7s var(--ease-out) 0.42s forwards; }
     .hero__pulse { opacity: 0; animation: hero-fade-up 0.5s var(--ease-out) 0.24s forwards; }
 
-    .hero__figure-line {
-      stroke-dasharray: 900;
-      stroke-dashoffset: 900;
-      animation: hero-draw 1.2s var(--ease-out) 0.2s forwards;
+    .hero__art-frame {
+      opacity: 0;
+      transform: scale(0.96);
+      animation: hero-fade-up 0.8s var(--ease-out) 0.2s forwards;
     }
-    .hero__figure-line--soft {
-      stroke-dasharray: 500;
-      stroke-dashoffset: 500;
-      animation: hero-draw 1.2s var(--ease-out) 0.45s forwards;
+    .hero__photo {
+      animation: hero-photo-breathe 9s ease-in-out 1s infinite alternate;
     }
-    .hero__tape-group {
-      clip-path: inset(0 100% 0 0);
-      animation: hero-tape-reveal 0.55s var(--ease-out) forwards;
+    .hero__pressure-dot {
+      opacity: 0;
+      animation: hero-fade-up 0.4s var(--ease-out) 1.1s forwards,
+                 hero-dot-press 2.4s ease-in-out 1.5s infinite;
     }
-    .hero__tape-group--1 { animation-delay: 1.35s; }
-    .hero__tape-group--2 { animation-delay: 1.6s; }
+    .hero__pressure-ring {
+      animation: hero-ring-pulse 2.4s ease-out 1.5s infinite;
+    }
+    .hero__pressure-ring:nth-child(3) { animation-delay: 2.7s; }
 
     .hero__pulse-line {
       stroke-dasharray: 480;
@@ -193,11 +209,17 @@
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
   }
-  @keyframes hero-draw {
-    to { stroke-dashoffset: 0; }
+  @keyframes hero-photo-breathe {
+    from { transform: scale(1); }
+    to { transform: scale(1.06); }
   }
-  @keyframes hero-tape-reveal {
-    to { clip-path: inset(0 0 0 0); }
+  @keyframes hero-dot-press {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(0.8); }
+  }
+  @keyframes hero-ring-pulse {
+    from { transform: scale(1); opacity: 0.7; }
+    to { transform: scale(3.4); opacity: 0; }
   }
   @keyframes hero-pulse-draw {
     to { stroke-dashoffset: 0; }
@@ -407,23 +429,15 @@
         <a class="btn btn--ghost" href="treatments.html">Treatments &amp; Prices</a>
       </div>
     </div>
-    <div class="hero__art" aria-hidden="true">
+    <div class="hero__art">
       <div class="hero__art-frame">
-        <svg class="hero__figure" viewBox="0 0 400 400" focusable="false">
-          <!-- Abstract single-stroke line art suggesting shoulder / upper-back anatomy -->
-          <path class="hero__figure-line" d="M70 300 C 90 220, 110 150, 160 110 C 200 78, 250 78, 285 108 C 315 134, 322 172, 300 200 C 282 223, 250 226, 232 206 C 218 190, 222 166, 240 156 C 254 148, 270 154, 274 168" />
-          <path class="hero__figure-line--soft" d="M100 320 C 140 260, 150 200, 190 160 M310 150 C 330 175, 336 205, 322 232" />
-          <circle class="hero__figure-line--soft" cx="160" cy="110" r="5" />
-          <!-- Kinesiology tape strips -->
-          <g class="hero__tape-group hero__tape-group--1" transform="translate(210,150) rotate(25)">
-            <rect class="hero__tape" x="-90" y="-16" width="180" height="32" rx="10" />
-            <rect class="hero__tape-highlight" x="-90" y="-16" width="180" height="10" rx="5" />
-          </g>
-          <g class="hero__tape-group hero__tape-group--2" transform="translate(150,230) rotate(-18)">
-            <rect class="hero__tape" x="-70" y="-13" width="140" height="26" rx="9" />
-            <rect class="hero__tape-highlight" x="-70" y="-13" width="140" height="8" rx="4" />
-          </g>
-        </svg>
+        <img class="hero__photo" src="assets/img/home/massage-treatment.jpg" alt="James Egginton applying deep tissue sports massage to a client's back">
+        <span class="hero__pressure-point" aria-hidden="true">
+          <span class="hero__pressure-ring"></span>
+          <span class="hero__pressure-ring"></span>
+          <span class="hero__pressure-dot"></span>
+        </span>
+        <span class="hero__photo-caption">In session at Portland Mews Clinic</span>
       </div>
     </div>
   </div>
@@ -434,9 +448,9 @@
   <div class="container">
     <div class="badge-row">
       <span class="badge">BSc Sports Science</span>
-      <span class="badge">Sports Therapy Organisation</span>
-      <span class="badge">ISRM</span>
-      <span class="badge">RockDoc Certified</span>
+      <span class="badge badge--logo"><img src="assets/img/badges/sports-therapy-organisation.jpg" alt="Sports Therapy Organisation member"></span>
+      <span class="badge badge--logo"><img src="assets/img/badges/isrm.jpg" alt="Institute for Soft Tissue Therapists (ISRM) member"></span>
+      <span class="badge badge--logo"><img src="assets/img/badges/rocktape.jpg" alt="RockDoc certified — Rocktape kinesiology taping"></span>
     </div>
   </div>
 </section>
