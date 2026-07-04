@@ -52,45 +52,50 @@
 <!-- ============ BLOCK 1: SPORTS & DEEP TISSUE MASSAGE ============ -->
 <section class="section section--tight" id="prices">
   <div class="container">
-    <div class="card" data-reveal="up">
-      <p class="eyebrow">01 &middot; Massage</p>
-      <h2>Sports &amp; Deep Tissue Massage</h2>
-      <p>Slow, deep strokes and sustained pressure reaching the inner layers of muscle and connective tissue &mdash; breaking down scar tissue and tension, tailored to your specific muscle groups.</p>
-
-      <h3 class="visually-hidden">What it treats</h3>
-      <div>
-        <span class="chip">Shoulder &amp; neck problems</span>
-        <span class="chip">Back problems</span>
-        <span class="chip">Pelvic &amp; groin strain</span>
-        <span class="chip">Hamstring problems</span>
-        <span class="chip">Sciatica</span>
-        <span class="chip">Knee / ankle / foot problems</span>
+    <div class="card treatment-card--media treatment-card--media-reverse" data-reveal="up">
+      <div class="treatment-card__media">
+        <img src="assets/img/home/massage-treatment.jpg" alt="James Egginton applying deep tissue sports massage to a client's back">
       </div>
+      <div class="treatment-card__body">
+        <p class="eyebrow">01 &middot; Massage</p>
+        <h2>Sports &amp; Deep Tissue Massage</h2>
+        <p>Slow, deep strokes and sustained pressure reaching the inner layers of muscle and connective tissue &mdash; breaking down scar tissue and tension, tailored to your specific muscle groups.</p>
 
-      <div style="overflow-x:auto;">
-        <table class="price-table">
-          <caption class="visually-hidden">Sports &amp; Deep Tissue Massage pricing by duration</caption>
-          <thead>
-            <tr>
-              <th scope="col">Duration</th>
-              <th scope="col">Price</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>45 minutes</td>
-              <td>&pound;50</td>
-            </tr>
-            <tr>
-              <td>60 minutes</td>
-              <td>&pound;60</td>
-            </tr>
-            <tr>
-              <td>90 minutes</td>
-              <td>&pound;85</td>
-            </tr>
-          </tbody>
-        </table>
+        <h3 class="visually-hidden">What it treats</h3>
+        <div>
+          <span class="chip">Shoulder &amp; neck problems</span>
+          <span class="chip">Back problems</span>
+          <span class="chip">Pelvic &amp; groin strain</span>
+          <span class="chip">Hamstring problems</span>
+          <span class="chip">Sciatica</span>
+          <span class="chip">Knee / ankle / foot problems</span>
+        </div>
+
+        <div style="overflow-x:auto;">
+          <table class="price-table">
+            <caption class="visually-hidden">Sports &amp; Deep Tissue Massage pricing by duration</caption>
+            <thead>
+              <tr>
+                <th scope="col">Duration</th>
+                <th scope="col">Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>45 minutes</td>
+                <td>&pound;50</td>
+              </tr>
+              <tr>
+                <td>60 minutes</td>
+                <td>&pound;60</td>
+              </tr>
+              <tr>
+                <td>90 minutes</td>
+                <td>&pound;85</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
@@ -244,9 +249,16 @@
     object-fit: cover;
     display: block;
   }
+  .treatment-card--media-reverse { grid-template-columns: 1.2fr 0.8fr; }
+  .treatment-card--media-reverse .treatment-card__media { order: 2; }
+  .treatment-card--media-reverse .treatment-card__body { order: 1; }
   @media (max-width: 899px) {
     .treatment-card--media { grid-template-columns: 1fr; }
     .treatment-card__media { order: -1; max-width: 320px; margin-inline: auto; width: 100%; }
+  }
+  @media (max-width: 899px) {
+    .treatment-card--media-reverse .treatment-card__media { order: -1; }
+    .treatment-card--media-reverse .treatment-card__body { order: 0; }
   }
 </style>
 </main>

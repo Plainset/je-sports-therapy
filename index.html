@@ -104,57 +104,61 @@
     overflow: hidden;
     box-shadow: var(--shadow-card-hover);
     border: 1px solid var(--color-line);
+    background: var(--color-sage-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
-  .hero__photo {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center 30%;
-    transform-origin: 60% 35%;
+  /* "Tension -> Relief" animation: a burst of jagged pain marks around a
+     point dissolves into calm expanding rings — a visual anyone reads as
+     "the ache is being worked out," paired with a crossfading word label
+     so the meaning is never ambiguous. */
+  .relief-anim {
+    width: 62%;
+    height: 62%;
+    overflow: visible;
   }
-  .hero__photo-caption {
+  .relief-anim__ring,
+  .relief-anim__bolt,
+  .relief-anim__core {
+    transform-box: view-box;
+    transform-origin: 200px 200px;
+  }
+  .relief-anim__ring {
+    fill: none;
+    stroke: var(--color-petrol-light);
+    stroke-width: 3;
+  }
+  .relief-anim__bolt {
+    fill: var(--color-orange);
+  }
+  .relief-anim__core {
+    fill: var(--color-orange-dark);
+  }
+  .relief-label {
     position: absolute;
-    left: 0; right: 0; bottom: 0;
-    padding: var(--space-2) var(--space-3);
-    background: linear-gradient(0deg, rgba(14,42,43,0.75), rgba(14,42,43,0));
-    color: var(--color-white);
+    left: 50%;
+    bottom: 9%;
+    transform: translateX(-50%);
     font-family: var(--font-display);
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    font-size: 0.85rem;
+    letter-spacing: 0.14em;
+    font-size: 1.05rem;
+    font-weight: 700;
+    white-space: nowrap;
   }
-  /* Pulsing pressure-point marker over the hands — reads instantly as
-     "this is where the work is happening" without needing motion to make sense. */
-  .hero__pressure-point {
-    position: absolute;
-    left: 47%;
-    top: 34%;
-    width: 16px;
-    height: 16px;
-    margin: -8px 0 0 -8px;
-  }
-  .hero__pressure-dot {
-    position: absolute;
-    inset: 0;
-    border-radius: 50%;
-    background: var(--color-orange);
-    border: 2px solid var(--color-white);
-    box-shadow: 0 2px 8px rgba(14, 42, 43, 0.35);
-  }
-  .hero__pressure-ring {
-    position: absolute;
-    inset: 0;
-    border-radius: 50%;
-    border: 2px solid var(--color-orange);
-    opacity: 0;
-  }
+  .relief-label--tension { color: var(--color-orange-dark); }
+  .relief-label--relief { color: var(--color-petrol); }
 
-  /* Default (reduced-motion) final state: photo static, marker shown
-     without animation so nothing is ever invisible or broken. */
-  .hero__pulse path {
-    stroke-dasharray: none;
-    stroke-dashoffset: 0;
-  }
+  /* Default (reduced-motion) final state: resolved and calm — two soft
+     static rings, no pain marks, "Relief" shown. Nothing ever invisible
+     or mid-transition when motion is off. */
+  .relief-anim__bolt { opacity: 0; }
+  .relief-anim__ring { opacity: 0; }
+  .relief-anim__ring:nth-child(1) { opacity: 0.45; transform: scale(1.7); }
+  .relief-anim__ring:nth-child(2) { opacity: 0.22; transform: scale(2.3); }
+  .relief-label--tension { opacity: 0; }
+  .relief-label--relief { opacity: 1; }
 
   /* ---- Motion layer: only when the user allows animation ---- */
   @media (prefers-reduced-motion: no-preference) {
@@ -175,18 +179,23 @@
       transform: scale(0.96);
       animation: hero-fade-up 0.8s var(--ease-out) 0.2s forwards;
     }
-    .hero__photo {
-      animation: hero-photo-breathe 9s ease-in-out 1s infinite alternate;
-    }
-    .hero__pressure-dot {
+    .relief-anim__bolt {
       opacity: 0;
-      animation: hero-fade-up 0.4s var(--ease-out) 1.1s forwards,
-                 hero-dot-press 2.4s ease-in-out 1.5s infinite;
+      animation: relief-bolt-cycle 4.5s ease-in-out 1.2s infinite;
     }
-    .hero__pressure-ring {
-      animation: hero-ring-pulse 2.4s ease-out 1.5s infinite;
+    .relief-anim__ring {
+      opacity: 0;
+      transform: scale(0.3);
+      animation: relief-ring-cycle 4.5s ease-out 1.2s infinite;
     }
-    .hero__pressure-ring:nth-child(3) { animation-delay: 2.7s; }
+    .relief-label--tension {
+      opacity: 0;
+      animation: relief-label-tension 4.5s ease-in-out 1.2s infinite;
+    }
+    .relief-label--relief {
+      opacity: 0;
+      animation: relief-label-relief 4.5s ease-in-out 1.2s infinite;
+    }
 
     .hero__pulse-line {
       stroke-dasharray: 480;
@@ -209,17 +218,36 @@
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
   }
-  @keyframes hero-photo-breathe {
-    from { transform: scale(1); }
-    to { transform: scale(1.06); }
+  @keyframes relief-bolt-cycle {
+    0% { opacity: 0; transform: scale(0.5); }
+    8% { opacity: 1; transform: scale(1); }
+    20% { opacity: 1; transform: scale(1.08); }
+    32% { opacity: 1; transform: scale(1); }
+    42% { opacity: 0; transform: scale(0.6); }
+    100% { opacity: 0; transform: scale(0.5); }
   }
-  @keyframes hero-dot-press {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(0.8); }
+  @keyframes relief-ring-cycle {
+    0% { opacity: 0; transform: scale(0.3); }
+    38% { opacity: 0; transform: scale(0.3); }
+    46% { opacity: 0.6; transform: scale(0.7); }
+    70% { opacity: 0.18; transform: scale(1.8); }
+    85% { opacity: 0; transform: scale(2.3); }
+    100% { opacity: 0; transform: scale(2.3); }
   }
-  @keyframes hero-ring-pulse {
-    from { transform: scale(1); opacity: 0.7; }
-    to { transform: scale(3.4); opacity: 0; }
+  @keyframes relief-label-tension {
+    0% { opacity: 0; }
+    8% { opacity: 1; }
+    30% { opacity: 1; }
+    40% { opacity: 0; }
+    100% { opacity: 0; }
+  }
+  @keyframes relief-label-relief {
+    0% { opacity: 0; }
+    40% { opacity: 0; }
+    48% { opacity: 1; }
+    88% { opacity: 1; }
+    96% { opacity: 0; }
+    100% { opacity: 0; }
   }
   @keyframes hero-pulse-draw {
     to { stroke-dashoffset: 0; }
@@ -429,15 +457,26 @@
         <a class="btn btn--ghost" href="treatments.html">Treatments &amp; Prices</a>
       </div>
     </div>
-    <div class="hero__art">
+    <div class="hero__art" aria-hidden="true">
       <div class="hero__art-frame">
-        <img class="hero__photo" src="assets/img/home/massage-treatment.jpg" alt="James Egginton applying deep tissue sports massage to a client's back">
-        <span class="hero__pressure-point" aria-hidden="true">
-          <span class="hero__pressure-ring"></span>
-          <span class="hero__pressure-ring"></span>
-          <span class="hero__pressure-dot"></span>
-        </span>
-        <span class="hero__photo-caption">In session at Portland Mews Clinic</span>
+        <svg class="relief-anim" viewBox="0 0 400 400" focusable="false">
+          <g class="relief-anim__rings">
+            <circle class="relief-anim__ring" cx="200" cy="200" r="18" style="animation-delay:1.2s" />
+            <circle class="relief-anim__ring" cx="200" cy="200" r="18" style="animation-delay:1.5s" />
+            <circle class="relief-anim__ring" cx="200" cy="200" r="18" style="animation-delay:1.8s" />
+          </g>
+          <g class="relief-anim__bolts">
+            <g transform="rotate(0 200 200)"><path class="relief-anim__bolt" style="animation-delay:1.2s" d="M200,182 L207,168 L199,168 L205,146 L193,163 L201,163 Z" /></g>
+            <g transform="rotate(60 200 200)"><path class="relief-anim__bolt" style="animation-delay:1.24s" d="M200,182 L207,168 L199,168 L205,146 L193,163 L201,163 Z" /></g>
+            <g transform="rotate(120 200 200)"><path class="relief-anim__bolt" style="animation-delay:1.28s" d="M200,182 L207,168 L199,168 L205,146 L193,163 L201,163 Z" /></g>
+            <g transform="rotate(180 200 200)"><path class="relief-anim__bolt" style="animation-delay:1.2s" d="M200,182 L207,168 L199,168 L205,146 L193,163 L201,163 Z" /></g>
+            <g transform="rotate(240 200 200)"><path class="relief-anim__bolt" style="animation-delay:1.24s" d="M200,182 L207,168 L199,168 L205,146 L193,163 L201,163 Z" /></g>
+            <g transform="rotate(300 200 200)"><path class="relief-anim__bolt" style="animation-delay:1.28s" d="M200,182 L207,168 L199,168 L205,146 L193,163 L201,163 Z" /></g>
+          </g>
+          <circle class="relief-anim__core" cx="200" cy="200" r="11" />
+        </svg>
+        <span class="relief-label relief-label--tension">Tension</span>
+        <span class="relief-label relief-label--relief">Relief</span>
       </div>
     </div>
   </div>
