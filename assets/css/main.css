@@ -145,7 +145,7 @@ button { font-family: inherit; }
 .nav__brand-mark {
   height: 2.75rem;
   width: 2.75rem;
-  border-radius: var(--radius-sm);
+  border-radius: 24%;
   display: block;
   flex-shrink: 0;
 }
