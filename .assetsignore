@@ -2,3 +2,6 @@
 .git
 .gitignore
 wrangler.toml
+.wrangler
+.DS_Store
+**/.DS_Store
