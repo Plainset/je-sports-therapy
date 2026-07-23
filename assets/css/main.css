@@ -129,6 +129,9 @@ button { font-family: inherit; }
   gap: var(--space-3);
 }
 .nav__brand {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
   font-family: var(--font-display);
   text-transform: uppercase;
   font-weight: 700;
@@ -139,6 +142,13 @@ button { font-family: inherit; }
   white-space: nowrap;
 }
 .nav__brand span { color: var(--color-orange); }
+.nav__brand-mark {
+  height: 2.75rem;
+  width: 2.75rem;
+  border-radius: var(--radius-sm);
+  display: block;
+  flex-shrink: 0;
+}
 .nav__toggle {
   display: none;
   background: none;
